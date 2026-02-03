@@ -1,5 +1,8 @@
+import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather/core/utils/app_exception.dart';
 import 'package:weather/domain/use_cases/weather_use_case.dart';
 import 'package:weather/features/weather_cubit/weather_states.dart';
 
@@ -17,7 +20,12 @@ class WeatherViewModel extends Cubit<WeatherStates> {
       condition = weather.condition;
       emit(WeatherSuccessState(responseDto: weather));
     } catch (e) {
-      emit(WeatherErrorState(message: e.toString()));
+      log(e.toString());
+      if (e is DioException && e.error is AppException) {
+        emit(WeatherErrorState(message: (e.error as AppException).message));
+      } else {
+        emit(WeatherErrorState(message: 'Unexpected error'));
+      }
     }
   }
 
