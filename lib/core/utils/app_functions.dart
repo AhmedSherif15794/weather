@@ -5,8 +5,8 @@ import 'package:weather/core/utils/app_colors.dart';
 class AppFunctions {
   static OutlineInputBorder buildDecorationBorder({Color? borderColor}) {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16.r),
-      borderSide: BorderSide(color: borderColor ?? AppColors.grey, width: 2),
+      borderRadius: BorderRadius.circular(48.r),
+      borderSide: BorderSide(color: borderColor ?? AppColors.grey, width: 1),
     );
   }
 

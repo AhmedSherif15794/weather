@@ -8,7 +8,18 @@ class WeatherRepoImpl implements WeatherRepo {
   RemoteDs remoteDs;
   WeatherRepoImpl({required this.remoteDs});
   @override
-  Future<WeatherResponse> getWeather({required String cityName}) {
-    return remoteDs.getWeather(city: cityName);
+  Future<WeatherResponse> getWeatherByLocation({
+    required double latitude,
+    required double longitude,
+  }) {
+    return remoteDs.getWeatherByLocation(
+      latitude: latitude,
+      longitude: longitude,
+    );
+  }
+
+  @override
+  Future<WeatherResponse> getWeatherByCityName({required String cityName}) {
+    return remoteDs.getWeatherByCityName(cityName: cityName);
   }
 }

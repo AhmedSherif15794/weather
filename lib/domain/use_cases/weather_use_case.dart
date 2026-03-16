@@ -8,9 +8,22 @@ class WeatherUseCase {
   WeatherRepo weatherRepo;
   WeatherUseCase({required this.weatherRepo});
 
-  Future<WeatherResponseDto> getWeather({required String cityName}) async {
+  Future<WeatherResponseDto> getWeatherByLocation({
+    required double latitude,
+    required double longitude,
+  }) async {
     // weather response  => weather respnose dto
-    var weather = await weatherRepo.getWeather(cityName: cityName);
+    var weather = await weatherRepo.getWeatherByLocation(
+      latitude: latitude,
+      longitude: longitude,
+    );
+    return weather.toWeatherResponseDto();
+  }
+
+  Future<WeatherResponseDto> getWeatheByCityName({
+    required String cityName,
+  }) async {
+    var weather = await weatherRepo.getWeatherByCityName(cityName: cityName);
     return weather.toWeatherResponseDto();
   }
 }

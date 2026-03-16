@@ -4,8 +4,11 @@ class WeatherResponseDto {
   // location
   String name;
   String country;
+  String region;
   int localtimeEpoch; //with seconds
   String localTime;
+  double lat;
+  double lon;
 
   // current
   int lastUpdatedEboch; // with seconds
@@ -18,11 +21,15 @@ class WeatherResponseDto {
 
   // days
   List<ForecastDayDto> forecastDayDto;
+
   WeatherResponseDto({
     required this.name,
     required this.country,
+    required this.region,
     required this.localTime,
     required this.localtimeEpoch,
+    required this.lat,
+    required this.lon,
 
     required this.condition,
     required this.conditionIcon,
