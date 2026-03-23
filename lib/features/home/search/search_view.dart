@@ -51,6 +51,9 @@ class _SearchViewState extends State<SearchView> {
                     keyboardType: TextInputType.webSearch,
                     style: Theme.of(context).textTheme.bodyLarge,
                     onSubmitted: (value) {
+                      if (value.isEmpty) {
+                        return;
+                      }
                       viewModel.getWeatherByCityName(value);
                       Navigator.pop(context);
                     },
@@ -128,7 +131,7 @@ class _SearchViewState extends State<SearchView> {
                           "Paris",
                           "Tokyo",
                           "New York",
-                          "Roma",
+                          "Rome",
                           "Moscow",
                           "Berlin",
                         ];

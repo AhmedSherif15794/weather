@@ -1,7 +1,7 @@
-import 'dart:developer';
-
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:weather/core/utils/app_exception.dart';
 import 'package:weather/domain/entities/hour_dto.dart';
 import 'package:weather/domain/use_cases/weather_use_case.dart';
 import 'package:weather/features/cubit/weather_states.dart';
@@ -25,48 +25,20 @@ class WeatherViewModel extends Cubit<WeatherStates> {
           weather.forecastDayDto.first.hours
               .where(
                 (element) =>
-                    DateTime.fromMillisecondsSinceEpoch(
-                      weather.localtimeEpoch * 1000,
-                    ).hour <=
-                    DateTime.fromMillisecondsSinceEpoch(
-                      element.timeEpoch * 1000,
-                    ).hour,
+                    DateTime.parse(weather.localTime).hour <=
+                    DateTime.parse(element.time).hour,
               )
               .toList();
       hours.addAll(weather.forecastDayDto[1].hours.toList());
-      hours =
-          weather.forecastDayDto.first.hours
-              .where(
-                (element) =>
-                    DateTime.fromMillisecondsSinceEpoch(
-                      weather.localtimeEpoch * 1000,
-                    ).hour <=
-                    DateTime.fromMillisecondsSinceEpoch(
-                      element.timeEpoch * 1000,
-                    ).hour,
-              )
-              .toList();
-      hours.addAll(
-        weather.forecastDayDto[1].hours
-            .where(
-              (element) =>
-                  DateTime.fromMillisecondsSinceEpoch(
-                    weather.localtimeEpoch * 1000,
-                  ).compareTo(
-                    DateTime.fromMillisecondsSinceEpoch(
-                      element.timeEpoch * 1000,
-                    ),
-                  ) <=
-                  0,
-            )
-            .toList(),
-      );
 
       locationCity = weather.name;
       emit(SuccessState(weather: weather));
     } catch (e) {
-      log(e.toString());
-      emit(ErrorState(message: e.toString()));
+      if (e is DioException) {
+        emit(ErrorState(message: (e.error as AppException).message));
+      } else {
+        emit(ErrorState(message: e.toString()));
+      }
     }
   }
 
@@ -86,7 +58,11 @@ class WeatherViewModel extends Cubit<WeatherStates> {
 
       emit(SuccessState(weather: weather));
     } catch (e) {
-      emit(ErrorState(message: e.toString()));
+      if (e is DioException) {
+        emit(ErrorState(message: (e.error as AppException).message));
+      } else {
+        emit(ErrorState(message: e.toString()));
+      }
     }
   }
 
