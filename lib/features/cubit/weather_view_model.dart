@@ -25,7 +25,22 @@ class WeatherViewModel extends Cubit<WeatherStates> {
           weather.forecastDayDto.first.hours
               .where(
                 (element) =>
-                    DateTime.now().hour <=
+                    DateTime.fromMillisecondsSinceEpoch(
+                      weather.localtimeEpoch * 1000,
+                    ).hour <=
+                    DateTime.fromMillisecondsSinceEpoch(
+                      element.timeEpoch * 1000,
+                    ).hour,
+              )
+              .toList();
+      hours.addAll(weather.forecastDayDto[1].hours.toList());
+      hours =
+          weather.forecastDayDto.first.hours
+              .where(
+                (element) =>
+                    DateTime.fromMillisecondsSinceEpoch(
+                      weather.localtimeEpoch * 1000,
+                    ).hour <=
                     DateTime.fromMillisecondsSinceEpoch(
                       element.timeEpoch * 1000,
                     ).hour,
@@ -35,7 +50,9 @@ class WeatherViewModel extends Cubit<WeatherStates> {
         weather.forecastDayDto[1].hours
             .where(
               (element) =>
-                  DateTime.now().compareTo(
+                  DateTime.fromMillisecondsSinceEpoch(
+                    weather.localtimeEpoch * 1000,
+                  ).compareTo(
                     DateTime.fromMillisecondsSinceEpoch(
                       element.timeEpoch * 1000,
                     ),
@@ -44,6 +61,7 @@ class WeatherViewModel extends Cubit<WeatherStates> {
             )
             .toList(),
       );
+
       locationCity = weather.name;
       emit(SuccessState(weather: weather));
     } catch (e) {
@@ -60,25 +78,11 @@ class WeatherViewModel extends Cubit<WeatherStates> {
           weather.forecastDayDto.first.hours
               .where(
                 (element) =>
-                    DateTime.now().hour <=
-                    DateTime.fromMillisecondsSinceEpoch(
-                      element.timeEpoch * 1000,
-                    ).hour,
+                    DateTime.parse(weather.localTime).hour <=
+                    DateTime.parse(element.time).hour,
               )
               .toList();
-      hours.addAll(
-        weather.forecastDayDto[1].hours
-            .where(
-              (element) =>
-                  DateTime.now().compareTo(
-                    DateTime.fromMillisecondsSinceEpoch(
-                      element.timeEpoch * 1000,
-                    ),
-                  ) <=
-                  0,
-            )
-            .toList(),
-      );
+      hours.addAll(weather.forecastDayDto[1].hours.toList());
 
       emit(SuccessState(weather: weather));
     } catch (e) {

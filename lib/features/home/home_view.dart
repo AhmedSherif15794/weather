@@ -147,20 +147,12 @@ class _HomeViewState extends State<HomeView> {
                                             children: [
                                               // current hour
                                               Text(
-                                                DateTime.fromMillisecondsSinceEpoch(
-                                                              viewModel
-                                                                      .hours[index]
-                                                                      .timeEpoch *
-                                                                  1000,
-                                                            ).hour ==
-                                                            DateTime.now().hour &&
-                                                        DateTime.fromMillisecondsSinceEpoch(
-                                                              viewModel
-                                                                      .hours[index]
-                                                                      .timeEpoch *
-                                                                  1000,
-                                                            ).day ==
-                                                            DateTime.now().day
+                                                state.weather.localTime
+                                                            .substring(0, 13) ==
+                                                        viewModel
+                                                            .hours[index]
+                                                            .time
+                                                            .substring(0, 13)
                                                     ? 'now'
                                                     : int.parse(
                                                           viewModel
@@ -172,18 +164,7 @@ class _HomeViewState extends State<HomeView> {
                                                               ),
                                                         ) ==
                                                         00
-                                                    ? '12:00 Am'
-                                                    : int.parse(
-                                                          viewModel
-                                                              .hours[index]
-                                                              .time
-                                                              .substring(
-                                                                11,
-                                                                13,
-                                                              ),
-                                                        ) ==
-                                                        12
-                                                    ? '12:00 Pm'
+                                                    ? "12:00 AM"
                                                     : int.parse(
                                                           viewModel
                                                               .hours[index]
@@ -194,8 +175,21 @@ class _HomeViewState extends State<HomeView> {
                                                               ),
                                                         ) <
                                                         12
-                                                    ? "${viewModel.hours[index].time.substring(11)} Am"
-                                                    : "${int.parse(viewModel.hours[index].time.substring(11, 13)) - 12}:00 Pm",
+                                                    ? " ${viewModel.hours[index].time.substring(11)} AM"
+                                                    : int.parse(
+                                                              viewModel
+                                                                  .hours[index]
+                                                                  .time
+                                                                  .substring(
+                                                                    11,
+                                                                    13,
+                                                                  ),
+                                                            ) -
+                                                            12 ==
+                                                        0
+                                                    ? "12:00 PM"
+                                                    : " ${int.parse(viewModel.hours[index].time.substring(11, 13)) - 12}:00 PM",
+
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyMedium!
@@ -257,7 +251,10 @@ class _HomeViewState extends State<HomeView> {
                                         ),
                                         // linear progress
                                         SunriseSunsetBar(
-                                          now: DateTime.now(),
+                                          now: DateTime.parse(
+                                            state.weather.localTime,
+                                          ),
+
                                           sunrise: today.sunRise,
                                           sunset: today.sunSet,
                                         ),
