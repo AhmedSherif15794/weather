@@ -34,10 +34,6 @@ class _HomeViewState extends State<HomeView> {
       builder: (context, state) {
         if (state is SuccessState) {
           ForecastDayDto today = state.weather.forecastDayDto.first;
-          print(today.sunRise);
-          print(today.sunSet);
-
-          print('lat : ${state.weather.lat}, lon : ${state.weather.lon}');
 
           return RefreshIndicator(
             onRefresh: () async {
