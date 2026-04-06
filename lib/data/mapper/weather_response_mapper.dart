@@ -7,8 +7,11 @@ extension WeatherResponseMapper on WeatherResponse {
     if (location != null &&
         location!.name != null &&
         location!.country != null &&
+        location!.region != null &&
         location!.localtime != null &&
         location!.localtimeEpoch != null &&
+        location!.lat != null &&
+        location!.lon != null &&
         current != null &&
         current!.condition != null &&
         current!.condition!.text != null &&
@@ -20,8 +23,11 @@ extension WeatherResponseMapper on WeatherResponse {
     return WeatherResponseDto(
       name: location!.name!,
       country: location!.country!,
+      region: location!.region!,
       localTime: location!.localtime!,
       localtimeEpoch: location!.localtimeEpoch!,
+      lat: location!.lat!,
+      lon: location!.lon!,
       condition: current!.condition!.text!,
       conditionIcon: current!.condition!.icon!,
       lastUpdated: current!.lastUpdated!,

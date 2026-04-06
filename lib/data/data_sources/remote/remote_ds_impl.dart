@@ -9,16 +9,27 @@ class RemoteDsImpl implements RemoteDs {
   Dio dio;
   RemoteDsImpl({required this.dio});
   @override
-  Future<WeatherResponse> getWeather({required String city}) async {
-    try {
-      var response = await dio.get(
-        ApiConstants.forcastEndPoint,
-        queryParameters: {"q": city, "days": 1},
-      );
-      WeatherResponse weather = WeatherResponse.fromJson(response.data);
-      return weather;
-    } catch (e) {
-      rethrow;
-    }
+  Future<WeatherResponse> getWeatherByLocation({
+    required double latitude,
+    required double longitude,
+  }) async {
+    var response = await dio.get(
+      ApiConstants.forcastEndPoint,
+      queryParameters: {"q": "$latitude,$longitude", "days": 3},
+    );
+    WeatherResponse weather = WeatherResponse.fromJson(response.data);
+    return weather;
+  }
+
+  @override
+  Future<WeatherResponse> getWeatherByCityName({
+    required String cityName,
+  }) async {
+    var response = await dio.get(
+      ApiConstants.forcastEndPoint,
+      queryParameters: {"q": cityName, "days": 3},
+    );
+    WeatherResponse weather = WeatherResponse.fromJson(response.data);
+    return weather;
   }
 }

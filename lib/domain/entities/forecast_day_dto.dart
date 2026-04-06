@@ -1,3 +1,5 @@
+import 'package:weather/domain/entities/hour_dto.dart';
+
 class ForecastDayDto {
   String date;
   int dateEpoch;
@@ -18,6 +20,9 @@ class ForecastDayDto {
   String moonSet;
   String moonPhase;
 
+  // hours
+  List<HourDto> hours;
+
   ForecastDayDto({
     required this.date,
     required this.dateEpoch,
@@ -31,5 +36,6 @@ class ForecastDayDto {
     required this.moonRise,
     required this.moonSet,
     required this.moonPhase,
+    required this.hours,
   });
 }
