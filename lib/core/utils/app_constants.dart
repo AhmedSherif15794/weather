@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather/core/utils/app_assets.dart';
 import 'package:weather/core/utils/app_colors.dart';
 
 class AppConstants {
@@ -108,6 +109,35 @@ class AppConstants {
       return AppColors.white; // رعد
     } else {
       return AppColors.white; // Default
+    }
+  }
+
+  static String getWeatherBackground(String condition) {
+    final cond = condition.toLowerCase();
+
+    if (cond == "sunny") {
+      // Sunny
+      return AppAssets.sunny1BG();
+    } else if (cond == "clear") {
+      // Clear - ليل صافي
+      return AppAssets.clear1BG();
+    } else if (cond == "cloudy" ||
+        cond == "partly cloudy" ||
+        cond == "overcast") {
+      // Cloudy / Overcast
+      return AppAssets.cloudy1BG();
+    } else if (cond == "mist" || cond == "fog") {
+      // Mist / Fog
+      return AppAssets.fog1BG();
+    } else if (cond.contains("rain")) {
+      return AppAssets.rainy1BG();
+    } else if (cond.contains("snow")) {
+      return AppAssets.snow1BG();
+    } else if (cond.contains("thunder")) {
+      return AppAssets.thunder1BG();
+    } else {
+      // Default
+      return AppAssets.clear1BG();
     }
   }
 }
