@@ -451,15 +451,27 @@ class _HomeViewState extends State<HomeView> {
                     Text(
                       state.message,
                       textAlign: TextAlign.center,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium!.copyWith(fontSize: 28.sp),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 28.sp,
+                        color: AppColors.black,
+                      ),
                     ),
 
                     ElevatedButton(
                       onPressed: () {
                         viewModel.getWeatherByCurrentLocation();
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.white,
+                        foregroundColor: AppColors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(28.r),
+                          side: BorderSide(
+                            color: AppColors.black.withAlpha(60),
+                            width: 2,
+                          ),
+                        ),
+                      ),
                       child: Text("Try again"),
                     ),
                   ],
